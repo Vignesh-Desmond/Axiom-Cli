@@ -1,3 +1,11 @@
-numpy == 1.16.1
-opencv_python == 3.4.5.20
-dlib == 19.16.0
+numpy == 1.18.5
+dlib == 19.21.0
+tensorflow == 2.3.1
+Keras == 2.4.3
+Keras-Applications == 1.0.8
+Keras-Preprocessing  ==  1.1.2
+keras-vggface == 0.6
+Pillow == 7.2.0
+opencv == 4.4.0
+mtcnn == 0.1.0
+Other required dependencies if any
