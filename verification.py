@@ -46,12 +46,15 @@ def is_match(known_embedding, candidate_embedding, thresh=0.4):
 	# calculate distance between embeddings
 	score = cosine(known_embedding, candidate_embedding)
 	if score <= thresh:
+		return True
 		print('>MATCH (%.3f <= %.3f)' % (score, thresh))
 	else:
+		return False
 		print('>NOT A MATCH (%.3f > %.3f)' % (score, thresh))
 
 
 def take_picture():
+    press = False
     while True:
         ret, frame = cam.read()
         frame = cv2.flip(frame,1)
@@ -71,7 +74,6 @@ def take_picture():
         if not ret:
             print("failed to grab frame")
             break
-        cv2.imshow("test", frame)
 
         k = cv2.waitKey(1)
         if k%256 == 32:
@@ -80,20 +82,26 @@ def take_picture():
             _, cap_file = cam.read()
             cv2.imwrite(img_name, cap_file)
             print("{} written!".format(img_name))
+            filenames = ['id.jpg', 'capture.jpg']
+            embeddings = get_embeddings(filenames)
+            press = True
+        
+        if press:
+            if is_match(embeddings[0], embeddings[1]):
+                cv2.putText(frame, "MATCH " , (10,50), cv2.FONT_HERSHEY_DUPLEX, 1, (0,255,0), 1)
+            else:
+                cv2.putText(frame, "NOT A MATCH: " ,(10,50),  cv2.FONT_HERSHEY_DUPLEX, 1, (0,0,255), 1)
+                
+        cv2.imshow("test", frame)
+        if k & 0xFF == ord('q') :
             break
+
     return
 
 cam = cv2.VideoCapture(0)
 cv2.namedWindow("test")
 take_picture()
-filenames = ['id.jpg', 'capture.jpg']
 
-#f, arr = plt.subplots(2, 1, figsize=(8,6))
-#arr[0].imshow(extract_face(filenames[0]))
-#arr[1].imshow(extract_face(filenames[1]))
-
-embeddings = get_embeddings(filenames)
-is_match(embeddings[0], embeddings[1])
 
 cam.release()
 cv2.destroyAllWindows()
