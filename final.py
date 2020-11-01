@@ -14,29 +14,29 @@ face_model = get_face_detector()
 landmark_model = get_landmark_model()
 
 
-# def mouth_open(img3):
-#     outer_points = [[49, 59], [50, 58], [51, 57], [52, 56], [53, 55]]
-#     d_outer = [0]*5
-#     inner_points = [[61, 67], [62, 66], [63, 65]]
-#     d_inner = [0]*3
-#     font = cv2.FONT_HERSHEY_SIMPLEX
-#     rects = find_faces(img3, face_model)
-#     for rect in rects:
-#         shape = detect_marks(img3, landmark_model, rect)
-#         cnt_outer = 0
-#         cnt_inner = 0
-#         draw_marks(img3, shape[48:])
-#         for i, (p1, p2) in enumerate(outer_points):
-#             if d_outer[i] + 3 < shape[p2][1] - shape[p1][1]:
-#                 cnt_outer += 1
-#         for i, (p1, p2) in enumerate(inner_points):
-#             if d_inner[i] + 2 <  shape[p2][1] - shape[p1][1]:
-#                 cnt_inner += 1
-#         if cnt_outer > 3 and cnt_inner > 2:
-#             print('Mouth open')
-#             # cv2.putText(img3, 'Mouth open', (30, 30), font,
-#             #         1, (0, 255, 255), 2)
-#     return img3
+def mouth_open(img3):
+    outer_points = [[49, 59], [50, 58], [51, 57], [52, 56], [53, 55]]
+    d_outer = [0]*5
+    inner_points = [[61, 67], [62, 66], [63, 65]]
+    d_inner = [0]*3
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    rects = find_faces(img3, face_model)
+    for rect in rects:
+        shape = detect_marks(img3, landmark_model, rect)
+        cnt_outer = 0
+        cnt_inner = 0
+        draw_marks(img3, shape[48:])
+        for i, (p1, p2) in enumerate(outer_points):
+            if d_outer[i] + 3 < shape[p2][1] - shape[p1][1]:
+                cnt_outer += 1
+        for i, (p1, p2) in enumerate(inner_points):
+            if d_inner[i] + 2 <  shape[p2][1] - shape[p1][1]:
+                cnt_inner += 1
+        if cnt_outer > 3 and cnt_inner > 2:
+            print('Mouth open')
+            # cv2.putText(img3, 'Mouth open', (30, 30), font,
+            #         1, (0, 255, 255), 2)
+    return img3
 
 
 def eye_position(img2):
